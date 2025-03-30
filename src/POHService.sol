@@ -3,7 +3,7 @@ pragma solidity ^0.8.26;
 
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-contract POHService is ERC721 {
+contract NomisSimulator is ERC721 {
     struct ScoreEntry {
         uint256 score;
         uint16 calcModel;
@@ -11,12 +11,10 @@ contract POHService is ERC721 {
     }
 
     mapping(address => ScoreEntry) public addressScores;
-    mapping(address => bool) public guildPinHolders;
     uint256 private _tokenIdCounter;
 
-    constructor() ERC721("POHService", "POHS") {}
+    constructor() ERC721("NomisSimulator", "NOMIS") {}
 
-    // Nomis Score Methods
     function setScore(
         address user,
         uint256 score,
@@ -48,17 +46,5 @@ contract POHService is ERC721 {
         );
 
         return entry.score;
-    }
-
-    // Guildpin Methods
-    function setGuildPinHolder(address user) external {
-        // Mint a token to simulate Guildpin
-        _tokenIdCounter++;
-        _safeMint(user, _tokenIdCounter);
-        guildPinHolders[user] = true;
-    }
-
-    function balanceOf(address owner) public view override returns (uint256) {
-        return guildPinHolders[owner] ? 1 : 0;
     }
 }
